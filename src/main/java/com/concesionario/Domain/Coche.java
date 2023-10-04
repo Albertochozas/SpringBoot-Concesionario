@@ -2,15 +2,21 @@ package com.concesionario.Domain;
 
 public class Coche {
     private String matricula;
+
     private String marca;
+
     private String modelo;
     private String anyo;
-
     public Coche(String matricula, String marca, String modelo, String anyo) {
         this.matricula = matricula;
         this.marca = marca;
         this.modelo = modelo;
         this.anyo = anyo;
+    }
+
+    public Coche(String matricula, String modelo) {
+        this.matricula = matricula;
+        this.modelo = modelo;
     }
 
     public String getMatricula() {
@@ -44,17 +50,6 @@ public class Coche {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Coche{" +
-                "matricula='" + matricula + '\'' +
-                ", marca='" + marca + '\'' +
-                ", modelo='" + modelo + '\'' +
-                ", anyo=" + anyo +
-                '}';
     }
 
 }

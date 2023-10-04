@@ -2,7 +2,7 @@ package com.concesionario.Controller;
 
 
 import com.concesionario.Domain.Coche;
-import com.concesionario.Domain.Exposiciones;
+import com.concesionario.Domain.Exposicion;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,17 +14,17 @@ import java.util.List;
 
 @RestController
 public class ExposicionController {
-    private List<Exposiciones> exposiciones = new ArrayList<>();
+    private List<Exposicion> exposiciones = new ArrayList<>();
 
     @GetMapping("/exposiciones")
-    public List<Exposiciones> listarExposiciones() {
+    public List<Exposicion> listarExposiciones() {
         return exposiciones;
     }
 
     @GetMapping("/exposiciones/{id}")
-    public ResponseEntity<Exposiciones> getExposicion(@PathVariable String id) {
-        for (Exposiciones exposicion : exposiciones) {
-            if (exposicion.getNumeroExposicion().equals(id))
+    public ResponseEntity<Exposicion> getExposicion(@PathVariable String id) {
+        for (Exposicion exposicion : exposiciones) {
+            if (exposicion.getCodigoExposicion().equals(id))
                 return ResponseEntity.ok(exposicion);
         }
         return ResponseEntity.notFound().build();
@@ -33,8 +33,8 @@ public class ExposicionController {
 
     @GetMapping("exposiciones/{id}/coches")
     public ResponseEntity<List<Coche>> getCochesExposicion(@PathVariable String id) {
-        for (Exposiciones exposicion : exposiciones) {
-            if (exposicion.getNumeroExposicion().equals(id)) {
+        for (Exposicion exposicion : exposiciones) {
+            if (exposicion.getCodigoExposicion().equals(id)) {
                 if (exposicion.getCochesEnExpo().isEmpty())
                     return ResponseEntity.noContent().build();
                 return ResponseEntity.ok(exposicion.getCochesEnExpo());
@@ -46,8 +46,8 @@ public class ExposicionController {
 
     @GetMapping("/exposiciones/{idExpo}/coches/{idCoche}")
     public ResponseEntity<Coche> getCocheDeExpo(@PathVariable String idExpo, @PathVariable String idCoche) {
-        for (Exposiciones exposicion : exposiciones) {
-            if (exposicion.getNumeroExposicion().equals(idExpo)) {
+        for (Exposicion exposicion : exposiciones) {
+            if (exposicion.getCodigoExposicion().equals(idExpo)) {
                 for (Coche coche : exposicion.getCochesEnExpo()) {
                     if (coche.getMatricula().equals(idCoche))
                         return ResponseEntity.ok(coche);
