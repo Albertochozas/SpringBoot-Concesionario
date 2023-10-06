@@ -1,16 +1,11 @@
 package com.concesionario.Services;
-
-
-import com.concesionario.Controller.CocheController;
+import Excepciones.CocheNotFoundException;
 import com.concesionario.Controller.CochesInput;
-import com.concesionario.Controller.InvalidCocheException;
+import Excepciones.InvalidCocheException;
 import com.concesionario.Domain.Coche;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CocheService {
@@ -20,13 +15,34 @@ public class CocheService {
         return coches;
     }
 
-    public Coche obtenerCochePorMatricula(String matricula){
+    public List<Coche> listarCochesPorMatricula(String matricula) {
+        List<Coche> cochesPorMatricula = new ArrayList<>();
         for (Coche coche : coches) {
-            if (coche.getMatricula().equals(matricula)){
-                return coche;
+            if (coche.getMatricula().equals(matricula)) {
+                cochesPorMatricula.add(coche);
             }
         }
-        return null;
+        return cochesPorMatricula;
+    }
+
+    public void agregarCoche(CochesInput cochesInput) throws InvalidCocheException {
+        Coche coche = new Coche(cochesInput.getMatricula(), cochesInput.getModelo());
+        validarCoche(coche);
+        coches.add(coche);
+    }
+
+    public void modificarCoche(String matricula, CochesInput cochesInput) throws CocheNotFoundException, InvalidCocheException {
+        Optional<Coche> cocheExistente = coches.stream().filter(coche -> coche.getMatricula().equals(matricula)).findFirst();
+        if (cocheExistente.isPresent()) {
+            Coche coche = cocheExistente.get();
+
+            coche.setMatricula(cochesInput.getMatricula());
+            coche.setModelo(cochesInput.getModelo());
+
+            validarCoche(coche);
+        } else {
+            throw new CocheNotFoundException("No se encuentra el coche");
+        }
     }
 
     public void validarCoche(Coche coche) throws InvalidCocheException {
@@ -49,9 +65,6 @@ public class CocheService {
 
     }
 
-    public void agregarCoche(Coche coche) {
-        coches.add(coche);
-    }
 
 
 }

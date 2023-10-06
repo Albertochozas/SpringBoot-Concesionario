@@ -1,5 +1,7 @@
 package com.concesionario.Domain;
 
+import com.concesionario.Controller.ExposicionInput;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +16,6 @@ public class Exposicion {
         this.nombreExposicion = nombreExposicion;
     }
 
-    public Exposicion(String codigoExposicion) {
-        this.codigoExposicion = codigoExposicion;
-    }
 
     public String getNombreExposicion() {
         return nombreExposicion;
@@ -40,5 +39,11 @@ public class Exposicion {
 
     public void setCochesEnExpo(List<Coche> cochesEnExpo) {
         this.cochesEnExpo = cochesEnExpo;
+    }
+
+    public void actualizar(ExposicionInput exposicionInput) {
+
+        this.nombreExposicion = exposicionInput.getNombreExposicion();
+
     }
 }
